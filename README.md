@@ -95,7 +95,7 @@ The goal is to build a **full-stack web application** providing a smooth booking
 - **Interactive Booking Calendar**
 - **Analytics Dashboards with Charts**
 - **Facility Approval Workflow**
-- **Review & Rating System (Optional)**
+- **Review & Rating System**
 - **Profile Management**
 - **Simulated Payments**
 
