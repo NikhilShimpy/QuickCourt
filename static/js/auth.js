@@ -1,12 +1,15 @@
 // Firebase Configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDH9cXqMCeNmYbN25aI8ygrsz1AbvmrGm8",
-  authDomain: "streetconnect-54453.firebaseapp.com",
-  projectId: "streetconnect-54453",
-  storageBucket: "streetconnect-54453.appspot.com",
-  messagingSenderId: "301987641886",
-  appId: "1:301987641886:web:e9fd56c486bb16ecb78c0f",
-  measurementId: "G-BLENMZN245"
+  const firebaseConfig = {
+  apiKey: "...",
+  authDomain: "...",
+  projectId: "...",
+  storageBucket: "...",
+  messagingSenderId: "...",
+  appId: "...",
+  measurementId: "..."
+};
+
 };
 
 // Initialize Firebase
