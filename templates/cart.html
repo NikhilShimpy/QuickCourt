@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Place Order</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/cart.css') }}" />
+  <script src="https://www.gstatic.com/firebasejs/9.8.4/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.8.4/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.8.4/firebase-firestore-compat.js"></script>
+</head>
+<body>
+  <header>
+    <div class="logo">StreetConnect</div>
+    <nav>
+      <ul>
+        <li><a href="/vendor/dashboard">Dashboard</a></li>
+        <li><a href="/vendor/products">Products</a></li>
+        <li><a href="/vendor/orders">My Orders</a></li>
+        <li><a href="/vendor/group-orders">Group Orders</a></li>
+        <li><a href="/vendor/profile">Profile</a></li>
+        <button onclick="logout()">Logout</button>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="cart-section">
+      <h2>Place Your Order</h2>
+      <div id="productDetails" class="product-details"></div>
+      
+      <div class="order-options">
+        <label>Quantity:</label>
+        <input type="number" id="orderQty" value="1" min="1" />
+
+        <label>Select Order Type:</label>
+        <select id="orderType">
+          <option value="single">Single Order</option>
+          <option value="group">Group Order</option>
+        </select>
+
+        <button id="confirmOrderBtn">Confirm Order</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='js/cart.js') }}"></script>
+</body>
+</html>

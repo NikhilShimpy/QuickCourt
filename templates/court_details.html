@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SBR Badminton - Venue Details</title>
+    <!-- <link rel="stylesheet" href="ven_detail.css"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/court_detals.css') }}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="venue-container">
+        <!-- Header with venue info -->
+        <header class="venue-header">
+            <h1>{{ court.name }}</h1>
+    <div class="venue-meta">
+        <div class="location-rating">
+            <span class="location"><i class="fas fa-map-marker-alt"></i> {{ court.location }}</span>
+            <span class="rating"><i class="fas fa-star"></i> {{ court.rating }} <span class="reviews-count">({{ court.reviews_count }} reviews)</span></span>
+        </div>
+        <button class="share-btn"><i class="fas fa-share-alt"></i></button>
+    </div>
+            
+            <!-- Image Gallery -->
+            <div class="image-gallery">
+                <div class="gallery-placeholder">
+                    <i class="fas fa-camera"></i>
+                    <span>Images / Videos</span>
+                </div>
+                <div class="gallery-nav">
+                    <button class="nav-btn prev"><i class="fas fa-chevron-left"></i></button>
+                    <button class="nav-btn next"><i class="fas fa-chevron-right"></i></button>
+                </div>
+                <div class="gallery-dots">
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main content -->
+        <main class="venue-content">
+            <!-- Amenities Section -->
+            <<section class="amenities-section">
+    <h2><i class="fas fa-check-circle"></i> Facilities & Amenities</h2>
+    <div class="amenities-grid">
+        {% for amenity in court.amenities %}
+        <div class="amenity-item">
+            <i class="fas fa-check"></i>
+            <span>{{ amenity }}</span>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+            <section class="description-section">
+    <h2><i class="fas fa-info-circle"></i> About Venue</h2>
+    <div class="description-content">
+        <p>{{ court.description }}</p>
+    </div>
+</section>
+
+<section class="pricing-section">
+    <h2><i class="fas fa-tag"></i> Pricing</h2>
+    <div class="pricing-table">
+        {% for price in court.pricing %}
+        <div class="price-row">
+            <span class="day">{{ price.day }}</span>
+            <span class="time">({{ price.time }})</span>
+            <span class="price">{{ price.price }}</span>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+            <!-- Reviews Section -->
+            <section class="reviews-section">
+                <h2><i class="fas fa-star"></i> Player Reviews <span class="reviews-count">(6)</span></h2>
+                
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer-info">
+                            <div class="reviewer-avatar">MA</div>
+                            <div>
+                                <div class="reviewer-name">Mitchell Ashin</div>
+                                <div class="review-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-date">15 June 2023, 9:38 PM</div>
+                    </div>
+                    <div class="review-content">
+                        <p>Excellent facilities and well-maintained courts. The staff is very helpful and professional. Will definitely come again!</p>
+                    </div>
+                </div>
+                
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer-info">
+                            <div class="reviewer-avatar">RJ</div>
+                            <div>
+                                <div class="reviewer-name">Rajesh Jain</div>
+                                <div class="review-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-date">10 June 2023, 6:15 PM</div>
+                    </div>
+                    <div class="review-content">
+                        <p>Good courts but a bit crowded on weekends. Would recommend booking in advance. The lighting system is excellent.</p>
+                    </div>
+                </div>
+                
+                <button class="view-all-btn">View All Reviews <i class="fas fa-chevron-down"></i></button>
+            </section>
+        </main>
+
+        <!-- Booking Footer -->
+        <footer class="booking-footer">
+    <div class="price-info">
+        <span class="from">From</span>
+        <span class="price">₹500/hour</span>
+    </div>
+  <a href="{{ url_for('main.court_book', court_id=1) }}" class="book-now-btn">Book Now</a>
+
+</footer>
+
+    </div>
+
+    <!-- <script src="ven_detail.js"></script> -->
+     <script src="{{ url_for('static', filename='js/court_details.js') }}"></script>
+</body>
+</html>

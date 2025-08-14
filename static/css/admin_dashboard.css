@@ -1,0 +1,96 @@
+body {
+  background-color: #f4f6f9;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+
+.navbar-brand {
+  font-size: 1.3rem;
+}
+
+.stat-card {
+  background: white;
+  padding: 18px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.stat-card .emoji {
+  font-size: 24px;
+  margin-bottom: 6px;
+}
+.stat-card .label {
+  color: #6c757d;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+.stat-card h2 {
+  font-weight: bold;
+  color: #0d6efd;
+}
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+}
+
+.chart-card, .data-card {
+  background: white;
+  padding: 18px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.chart-card h6, .data-card h6 {
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #f1f5ff;
+}
+
+.btn {
+  border-radius: 8px;
+  font-size: 13px;
+  padding: 5px 10px;
+}
+
+/* 📱 Mobile & Tablet Adjustments */
+@media (max-width: 768px) {
+  .stat-card {
+    padding: 14px;
+  }
+  .stat-card h2 {
+    font-size: 20px;
+  }
+  .stat-card .emoji {
+    font-size: 20px;
+  }
+  h3 {
+    font-size: 20px;
+  }
+  .chart-card, .data-card {
+    padding: 14px;
+  }
+  table {
+    font-size: 13px;
+  }
+  /* Make tables scrollable */
+  .table-responsive {
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar-brand {
+    font-size: 1.1rem;
+  }
+  .stat-card h2 {
+    font-size: 18px;
+  }
+  .stat-card .emoji {
+    font-size: 18px;
+  }
+  h3 {
+    font-size: 18px;
+  }
+}

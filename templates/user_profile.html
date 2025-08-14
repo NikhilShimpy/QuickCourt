@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Profile Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* Vibrant color scheme */
+            --primary: #4361ee;  /* Royal blue */
+            --primary-light: #e6f0ff;
+            --primary-dark: #3a0ca3;  /* Dark purple-blue */
+            --accent: #f72585;  /* Pink */
+            --accent-light: #ffd6e7;
+            --secondary: #4cc9f0;  /* Sky blue */
+            --success: #2ec4b6;  /* Teal */
+            --light: #ffffff;
+            --light-bg: #f8f9fa;
+            --text-primary: #2d3748;
+            --text-secondary: #4a5568;
+            --border-color: #e2e8f0;
+            --sidebar-width: 280px;
+            --sidebar-collapsed: 80px;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: linear-gradient(180deg, var(--primary), var(--primary-dark));
+            color: white;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            transition: var(--transition);
+            z-index: 100;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar.collapsed {
+            width: var(--sidebar-collapsed);
+        }
+
+        .sidebar-header {
+            padding: 25px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .sidebar.collapsed .sidebar-header {
+            justify-content: center;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            background: var(--accent);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 700;
+            white-space: nowrap;
+            transition: var(--transition);
+        }
+
+        .sidebar.collapsed .logo-text {
+            opacity: 0;
+            width: 0;
+        }
+
+        .toggle-btn {
+            position: absolute;
+            right: -12px;
+            background: white;
+            border: none;
+            color: var(--primary);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .toggle-btn:hover {
+            background: var(--light);
+            transform: scale(1.1);
+        }
+
+        .sidebar.collapsed .toggle-btn {
+            transform: rotate(180deg);
+        }
+
+        .sidebar.collapsed .toggle-btn:hover {
+            transform: rotate(180deg) scale(1.1);
+        }
+
+        .profile-section {
+            padding: 25px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            transition: var(--transition);
+        }
+
+        .sidebar.collapsed .profile-section {
+            padding: 25px 10px;
+        }
+
+        .avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--accent), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .sidebar.collapsed .avatar {
+            width: 45px;
+            height: 45px;
+            font-size: 18px;
+        }
+
+        .user-info {
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .sidebar.collapsed .user-info {
+            opacity: 0;
+            height: 0;
+            overflow: hidden;
+        }
+
+        .user-info h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .user-info p {
+            font-size: 13px;
+            opacity: 0.8;
+        }
+
+        .nav-links {
+            padding: 20px 0;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .nav-item {
+            padding: 14px 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            margin: 0 10px;
+            border-radius: 8px;
+        }
+
+        .sidebar.collapsed .nav-item {
+            padding: 14px;
+            justify-content: center;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-item.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-item i {
+            font-size: 18px;
+            min-width: 20px;
+            transition: var(--transition);
+        }
+
+        .nav-item span {
+            font-weight: 500;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .sidebar.collapsed .nav-item span {
+            opacity: 0;
+            width: 0;
+            position: absolute;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex-grow: 1;
+            padding: 30px;
+            margin-left: var(--sidebar-width);
+            transition: var(--transition);
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar.collapsed ~ .main-content {
+            margin-left: var(--sidebar-collapsed);
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            animation: fadeInDown 0.6s ease;
+        }
+
+        .content-title {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .content-subtitle {
+            color: var(--text-secondary);
+            font-size: 16px;
+            margin-top: 8px;
+            font-weight: 400;
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow-sm);
+            padding: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeInUp 0.6s ease 0.2s both;
+            border: 1px solid var(--border-color);
+        }
+
+        .card-header {
+            margin-bottom: 25px;
+        }
+
+        .card-header h2 {
+            font-size: 24px;
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+        }
+
+        .card-header p {
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+            animation: fadeIn 0.5s ease both;
+        }
+
+        .form-group:nth-child(1) { animation-delay: 0.3s; }
+        .form-group:nth-child(2) { animation-delay: 0.4s; }
+        .form-group:nth-child(3) { animation-delay: 0.5s; }
+        .form-group:nth-child(4) { animation-delay: 0.6s; }
+        .form-group:nth-child(5) { animation-delay: 0.7s; }
+        .form-group:nth-child(6) { animation-delay: 0.8s; }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-with-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 12px 12px 40px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background: var(--light);
+            color: var(--text-primary);
+        }
+
+        input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+            outline: none;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-password:hover {
+            color: var(--primary);
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-reset {
+            background: var(--light);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-reset:hover {
+            background: #f5f5f5;
+            transform: translateY(-1px);
+        }
+
+        .btn-save {
+            background: var(--primary);
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-save:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-content {
+                padding: 25px 20px;
+            }
+            
+            .profile-card {
+                padding: 25px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.collapsed {
+                transform: translateX(0);
+                width: var(--sidebar-collapsed);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .sidebar.collapsed ~ .main-content {
+                margin-left: var(--sidebar-collapsed);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .content-title {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">P</div>
+            <div class="logo-text">ProfileDash</div>
+            <button class="toggle-btn" id="toggleBtn">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+        </div>
+        
+        <div class="profile-section">
+            <div class="avatar">MA</div>
+            <div class="user-info">
+                <h3>Mitchell Admin</h3>
+                <p>mitchelladmin2017@gmail.com</p>
+            </div>
+        </div>
+        
+        <div class="nav-links">
+            <div class="nav-item active">
+                <i class="fas fa-user-edit"></i>
+                <span>Edit Profile</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-calendar-check"></i>
+                <span>My Bookings</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </div>
+        </div>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="content-header">
+            <div>
+                <h1 class="content-title">Edit Profile</h1>
+                <p class="content-subtitle">Update your personal information</p>
+            </div>
+        </div>
+        
+        <div class="profile-card">
+            <div class="card-header">
+                <h2>Personal Information</h2>
+                <p>Manage your profile details and settings</p>
+            </div>
+            
+            <form id="profileForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="fullName" placeholder="Enter your full name">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="email" placeholder="Enter your email">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-phone"></i>
+                            <input type="text" id="phone" placeholder="Enter your phone number">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <input type="text" id="location" placeholder="Enter your location">
+                        </div>
+                    </div>
+                    
+                   
+                
+                <div class="form-actions">
+                    <button type="reset" class="btn btn-reset">
+                        <i class="fas fa-redo"></i> Reset
+                    </button>
+                    <button type="submit" class="btn btn-save">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        // DOM Elements
+        const sidebar = document.getElementById('sidebar');
+        const toggleBtn = document.getElementById('toggleBtn');
+        const toggleOldPasswordBtn = document.getElementById('toggleOldPassword');
+        const toggleNewPasswordBtn = document.getElementById('toggleNewPassword');
+        const oldPasswordInput = document.getElementById('oldPassword');
+        const newPasswordInput = document.getElementById('newPassword');
+        const profileForm = document.getElementById('profileForm');
+        const navItems = document.querySelectorAll('.nav-item');
+        
+        // Toggle sidebar
+        toggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+        });
+        
+        // Toggle password visibility
+        function togglePasswordVisibility(button, inputField) {
+            const icon = button.querySelector('i');
+            if (inputField.type === 'password') {
+                inputField.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                inputField.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+        
+        toggleOldPasswordBtn.addEventListener('click', () => {
+            togglePasswordVisibility(toggleOldPasswordBtn, oldPasswordInput);
+        });
+        
+        toggleNewPasswordBtn.addEventListener('click', () => {
+            togglePasswordVisibility(toggleNewPasswordBtn, newPasswordInput);
+        });
+        
+        // Form submission
+        profileForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            showNotification('Profile updated successfully!', 'success');
+        });
+        
+        // Form reset
+        profileForm.addEventListener('reset', () => {
+            showNotification('Form has been reset', 'info');
+        });
+        
+        // Navigation items
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                // Remove active class from all items
+                navItems.forEach(el => {
+                    el.classList.remove('active');
+                });
+                
+                // Add active class to clicked item
+                this.classList.add('active');
+                
+                // Show notification for bookings
+                if(this.querySelector('span').textContent === "My Bookings") {
+                    showNotification('Redirecting to bookings page...', 'info');
+                }
+            });
+        });
+        
+        // Show notification
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = notification ${type};
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            // Animation for notification
+            setTimeout(() => {
+                notification.style.opacity = '1';
+                notification.style.transform = 'translateY(0)';
+            }, 10);
+            
+            // Remove notification after delay
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateY(-20px)';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+        
+        // Add notification styles
+        const style = document.createElement('style');
+        style.innerHTML = `
+            .notification {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 12px 20px;
+                border-radius: 8px;
+                color: white;
+                font-weight: 500;
+                box-shadow: var(--shadow-md);
+                z-index: 1000;
+                opacity: 0;
+                transform: translateY(-20px);
+                transition: all 0.3s ease;
+                font-size: 14px;
+            }
+            .success {
+                background: linear-gradient(45deg, var(--success), #27ae60);
+            }
+            .info {
+                background: linear-gradient(45deg, var(--secondary), #2980b9);
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+    <!-- Firebase App (the core Firebase SDK) -->
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<!-- Firebase Firestore -->
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
+<script>
+  // Your Firebase config
+  const firebaseConfig = {
+     apiKey: "AIzaSyDH9cXqMCeNmYbN25aI8ygrsz1AbvmrGm8",
+    authDomain: "streetconnect-54453.firebaseapp.com",
+    projectId: "streetconnect-54453",
+    storageBucket: "streetconnect-54453.firebasestorage.app",
+    messagingSenderId: "301987641886",
+    appId: "1:301987641886:web:e9fd56c486bb16ecb78c0f",
+    measurementId: "G-BLENMZN245"
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+  // Initialize Firestore
+  const db = firebase.firestore();
+  document.getElementById('profileForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const fullName = document.getElementById('fullName').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const location = document.getElementById('location').value.trim();
+
+  if (!fullName || !email) {
+    alert('Full Name and Email are required!');
+    return;
+  }
+
+  try {
+    // Save data to Firestore collection "user_profile"
+    // Using email as document ID (you can change this)
+    await db.collection('user_profile').doc(email).set({
+      fullName,
+      email,
+      phone,
+      location,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }, { merge: true });  // merge:true updates existing fields if doc exists
+
+    alert('Profile updated successfully!');
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    alert('Failed to update profile, please try again.');
+  }
+});
+
+</script>
+
+
+</body>
+</html>

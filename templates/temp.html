@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Button Navigation Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            color: #333;
+        }
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Select a Page</h1>
+    <div class="button-container">
+        <button onclick="location.href='{{ url_for('main.temp2') }}'">Go to Page 1</button>
+
+        <button onclick="location.href='page2.html'">Go to Page 2</button>
+        <button onclick="location.href='page3.html'">Go to Page 3</button>
+        <button onclick="location.href='page4.html'">Go to Page 4</button>
+        <button onclick="location.href='page5.html'">Go to Page 5</button>
+        <button onclick="location.href='page6.html'">Go to Page 6</button>
+        <button onclick="location.href='page7.html'">Go to Page 7</button>
+        <button onclick="location.href='page8.html'">Go to Page 8</button>
+        <button onclick="location.href='page9.html'">Go to Page 9</button>
+        <button onclick="location.href='page10.html'">Go to Page 10</button>
+    </div>
+
+</body>
+</html>

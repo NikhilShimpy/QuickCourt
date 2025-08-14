@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SBR Sports - Court Booking</title>
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/court_book.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+<body>
+    <div class="booking-container">
+        <header class="booking-header">
+            <h1>Court Booking</h1>
+            <div class="venue-card">
+                <h2>SBR Sports Complex</h2>
+                <p class="location">Satellite, Jodhpur Village</p>
+                <div class="rating">
+                    <span class="stars">★★★★☆</span>
+                    <span class="rating-text">4.5 (6)</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="booking-main">
+            <section class="booking-section">
+                <h3>Sport</h3>
+                <div class="sport-selection">
+                    <select id="sport-select">
+                        <option value="" disabled selected>Select Sport</option>
+                        <option value="badminton">Badminton</option>
+                        <option value="cricket">Cricket</option>
+                        <option value="football">Football</option>
+                        <option value="swimming">Swimming</option>
+                        <option value="tennis">Tennis</option>
+                        <option value="basketball">Basketball</option>
+                    </select>
+                </div>
+            </section>
+
+            <section class="booking-section">
+                <h3>Date & Time</h3>
+                <div class="datetime-selection">
+                    <div class="date-picker">
+                        <input type="text" id="date-input" placeholder="Select Date" readonly>
+                        <i class="far fa-calendar-alt"></i>
+                    </div>
+                    <div class="time-picker">
+                        <input type="text" id="time-input" placeholder="Select Time" readonly>
+                        <i class="far fa-clock"></i>
+                    </div>
+                </div>
+            </section>
+
+            <section class="booking-section">
+                <h3>Duration</h3>
+                <div class="duration-selection">
+                    <select id="duration-select">
+                        <option value="1">1 hour</option>
+                        <option value="2" selected>2 hours</option>
+                        <option value="3">3 hours</option>
+                        <option value="4">4 hours</option>
+                    </select>
+                    <div class="court-selection">
+                        <select id="court-select">
+                            <option value="" disabled selected>--Select Court--</option>
+                            <option value="court1">Court 1</option>
+                            <option value="court2">Court 2</option>
+                            <option value="court3">Court 3</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <section class="booking-section player-section">
+                <h3>Players</h3>
+                <div class="player-count">
+                    <button class="player-btn minus"><i class="fas fa-minus"></i></button>
+                    <span id="player-count">2</span>
+                    <button class="player-btn plus"><i class="fas fa-plus"></i></button>
+                    <span class="player-label">Members</span>
+                </div>
+            </section>
+        </main>
+
+        <footer class="booking-footer">
+           
+            <button class="payment-button" id="payment-btn">
+                Continue to Payment - ₹1200.00
+                <i class="fas fa-arrow-right"></i>
+            </button>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="{{ url_for('static', filename='js/court_book.js') }}"></script>
+</body>
+</html>

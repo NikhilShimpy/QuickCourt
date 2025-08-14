@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login | StreetConnect</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+  <script src="https://www.gstatic.com/firebasejs/9.8.4/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.8.4/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.8.4/firebase-auth-compat.js"></script>
+</head>
+<body>
+  <div class="background-animation">
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+  </div>
+
+  <div class="form-container animate__animated animate__fadeIn">
+    <div class="logo-container">
+      <i class="fas fa-store-alt"></i>
+      <h1>QuickCourt</h1>
+    </div>
+    
+    <h2>Welcome Back!</h2>
+    
+    <div class="input-group animate__animated animate__fadeInUp">
+      <label>Email</label>
+      <div class="input-field">
+        <i class="fas fa-envelope"></i>
+        <input type="email" id="email" placeholder="Enter your email" required>
+      </div>
+    </div>
+    
+    <div class="input-group animate__animated animate__fadeInUp animate__delay-1s">
+      <label>Password</label>
+      <div class="input-field">
+        <i class="fas fa-lock"></i>
+        <input type="password" id="password" placeholder="Enter your password" required>
+        <i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility()"></i>
+      </div>
+    </div>
+    
+    <div class="options">
+      <div class="remember-me">
+        <input type="checkbox" id="remember">
+        <label for="remember">Remember me</label>
+      </div>
+      <a href="/forgot-password" class="forgot-password">Forgot password?</a>
+    </div>
+    
+    <button class="login-btn animate__animated animate__fadeInUp animate__delay-2s" onclick="signIn()">
+      <span class="btn-text">Login</span>
+      <i class="fas fa-spinner fa-spin loading-icon"></i>
+    </button>
+    
+    <div class="social-login animate__animated animate__fadeInUp animate__delay-3s">
+      <p>Or login with</p>
+      <div class="social-icons">
+        <div class="social-icon google" onclick="signInWithGoogle()">
+          <i class="fab fa-google"></i>
+        </div>
+        <div class="social-icon facebook" onclick="signInWithFacebook()">
+          <i class="fab fa-facebook-f"></i>
+        </div>
+      </div>
+    </div>
+
+    <p class="redirect-text animate__animated animate__fadeInUp animate__delay-3s">
+      Don't have an account?  
+      <a href="/signup" class="link">Sign Up here</a>
+    </p>
+  </div>
+
+  <div class="notification" id="notification"></div>
+
+  <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+</body>
+</html>

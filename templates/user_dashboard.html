@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QuickCourt - Sports Courts Dashboard</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  
+  <!-- CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/user_dashboard.css') }}">
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <!-- Header -->
+<header class="dashboard-header">
+  <div class="header-left">
+    <button id="sidebarToggle" class="sidebar-toggle" aria-label="Toggle sidebar">
+      <i class="fas fa-bars"></i>
+    </button>
+    <h1 class="logo">QuickCourt</h1>
+  </div>
+  <div class="header-right">
+    <nav class="header-nav">
+      <!-- My Bookings -->
+      <a href="{{ url_for('main.my_bookings') }}" class="nav-link">
+
+        <i class="fas fa-calendar-alt"></i>
+        <span class="nav-text">My Bookings</span>
+      </a>
+
+      <!-- My Profile -->
+      <a href="{{ url_for('main.user_profile') }}" class="nav-link">
+        <i class="fas fa-user"></i>
+        <span class="nav-text">My Profile</span>
+      </a>
+
+      <!-- Avatar -->
+      <div class="user-avatar">
+        <img src="https://ui-avatars.com/api/?name=User&background=4e73df&color=fff" alt="User Avatar">
+      </div>
+    </nav>
+  </div>
+</header>
+
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="user-info">
+        <img src="https://ui-avatars.com/api/?name=User&background=4e73df&color=fff" alt="User" class="user-avatar">
+        <div class="user-details">
+          <h4 class="welcome-message">Welcome back,</h4>
+          <p class="user-name">John Doe</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-content">
+      <!-- Filters -->
+      <section class="filter-section">
+        <h3 class="section-title">
+          <i class="fas fa-sliders-h"></i>
+          <span>Filters</span>
+        </h3>
+        
+        <div class="filter-group">
+          <label for="searchName" class="filter-label">Search by name</label>
+          <div class="input-with-icon">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchName" class="form-control" placeholder="Court name...">
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <label for="sportType" class="filter-label">Sport Type</label>
+          <div class="input-with-icon">
+            <i class="fas fa-basketball-ball"></i>
+            <select id="sportType" class="form-control">
+              <option value="">All Sports</option>
+              <option value="basketball">Basketball</option>
+              <option value="football">Football</option>
+              <option value="tennis">Tennis</option>
+              <option value="badminton">Badminton</option>
+              <option value="volleyball">Volleyball</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <label for="priceRange" class="filter-label">Price Range</label>
+          <div class="price-range">
+            <input type="range" id="priceRange" class="form-range" min="0" max="2000" step="100" value="2000">
+            <div class="price-values">
+              <span>₹0</span>
+              <span id="priceValue">₹2000</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-label">Venue Type</label>
+          <div class="checkbox-group">
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" id="indoorCheck" checked>
+              <label for="indoorCheck" class="form-check-label">
+                <i class="fas fa-home"></i> Indoor
+              </label>
+            </div>
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" id="outdoorCheck" checked>
+              <label for="outdoorCheck" class="form-check-label">
+                <i class="fas fa-tree"></i> Outdoor
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-label">Minimum Rating</label>
+          <div class="rating-filter">
+            <div class="stars" id="ratingStars">
+              <i class="fas fa-star" data-rating="1"></i>
+              <i class="fas fa-star" data-rating="2"></i>
+              <i class="fas fa-star" data-rating="3"></i>
+              <i class="fas fa-star" data-rating="4"></i>
+              <i class="fas fa-star" data-rating="5"></i>
+            </div>
+            <span class="rating-text">& Up</span>
+          </div>
+        </div>
+
+        <button id="applyFiltersBtn" class="btn btn-primary apply-filters-btn">
+          <i class="fas fa-filter"></i> Apply Filters
+        </button>
+      </section>
+
+      <!-- Top Rated Courts -->
+      <section class="most-rated">
+        <h3 class="section-title">
+          <i class="fas fa-crown"></i>
+          <span>Top Rated Courts</span>
+        </h3>
+        <div id="top-rated-courts" class="top-rated-list">
+          <div class="loading-placeholder">
+            <div class="ph-item">
+              <div class="ph-col-12">
+                <div class="ph-row">
+                  <div class="ph-col-8 big"></div>
+                  <div class="ph-col-4 empty"></div>
+                  <div class="ph-col-6"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content" id="mainContent">
+    <div class="content-header">
+      <h2 class="page-title">Available Courts</h2>
+      <div class="search-bar">
+        <div class="input-with-icon">
+          <i class="fas fa-search"></i>
+          <input type="text" id="globalSearch" class="form-control" placeholder="Search courts by name, sport, location...">
+        </div>
+        <button class="btn btn-primary search-btn">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="content-body">
+      <div class="sort-options">
+        <span class="sort-label">Sort by:</span>
+        <select id="sortBy" class="form-control">
+          <option value="rating-desc">Highest Rated</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+          <option value="name-asc">Name: A-Z</option>
+        </select>
+      </div>
+
+      <!-- Courts Grid -->
+      <style>
+  .courts-grid {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .court-card {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    width: 300px;
+    text-align: center;
+  }
+
+  .court-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .court-info {
+    padding: 15px;
+  }
+
+  .price {
+    font-weight: bold;
+    color: #28a745;
+  }
+
+  .court-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+
+  .btn {
+    padding: 8px 12px;
+    text-decoration: none;
+    background: #007bff;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn.share {
+    background: #28a745;
+  }
+</style>
+
+<div class="courts-grid" id="courts-container">
+  
+  <div class="court-card">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0abyieXEWgouu-qBbe3erxgr7KZsOEyTP2Q&s" alt="Court Image">
+    <div class="court-info">
+      <h4>Sunset Basketball Court</h4>
+      <p>Basketball • Outdoor</p>
+      <p class="price">₹500/hr</p>
+      <div class="court-actions">
+        <a href="{{ url_for('main.court_details', court_id=1) }}" class="btn view-detail">View Detail</a>
+
+        <button class="btn share" onclick="shareCourt('Sunset Basketball Court')">Share</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="court-card">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0abyieXEWgouu-qBbe3erxgr7KZsOEyTP2Q&s" alt="Court Image">
+    <div class="court-info">
+      <h4>Greenfield Tennis Court</h4>
+      <p>Tennis • Outdoor</p>
+      <p class="price">₹700/hr</p>
+      <div class="court-actions">
+        <a href="court_details.html" class="btn view-detail">View Detail</a>
+        <button class="btn share" onclick="shareCourt('Greenfield Tennis Court')">Share</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="court-card">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0abyieXEWgouu-qBbe3erxgr7KZsOEyTP2Q&s" alt="Court Image">
+    <div class="court-info">
+      <h4>Downtown Futsal Arena</h4>
+      <p>Futsal • Indoor</p>
+      <p class="price">₹800/hr</p>
+      <div class="court-actions">
+        <a href="court_details.html" class="btn view-detail">View Detail</a>
+        <button class="btn share" onclick="shareCourt('Downtown Futsal Arena')">Share</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function shareCourt(courtName) {
+    if (navigator.share) {
+      navigator.share({
+        title: courtName,
+        text: `Check out this amazing court: ${courtName}`,
+        url: window.location.href
+      });
+    } else {
+      alert(`Sharing not supported on this browser. Court: ${courtName}`);
+    }
+  }
+</script>
+
+
+
+        
+
+  <!-- JS -->
+  <script src="{{ url_for('static', filename='js/user_dashboard.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body>
+  <header>
+    <h1>Welcome, Admin</h1>
+    <button onclick="logout()">Logout</button>
+  </header>
+
+  <main>
+    <section>
+      <h2>Admin Panel</h2>
+      <p>Here you can manage users, vendors, and suppliers.</p>
+      <ul>
+        <li><a href="#">Manage Users</a></li>
+        <li><a href="#">Manage Vendors</a></li>
+        <li><a href="#">Manage Suppliers</a></li>
+        <li><a href="#">View Reports</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+</body>
+</html>

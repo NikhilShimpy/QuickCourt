@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Facility Owner Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/owner_dashboard.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    /* Minimal styles for multi-select dropdown and previews */
+    .multi-select-dropdown {
+      position: relative;
+      max-width: 300px;
+      margin-bottom: 1rem;
+    }
+    .select-box {
+      border: 1px solid #ccc;
+      padding: 8px 12px;
+      cursor: pointer;
+      user-select: none;
+      background: white;
+      border-radius: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .select-box .arrow {
+      margin-left: 10px;
+      font-size: 0.8rem;
+    }
+    .checkboxes label {
+      display: block;
+      margin-bottom: 5px;
+      cursor: pointer;
+    }
+    #facility-photo-preview img,
+    #photo-preview img {
+      max-height: 80px;
+      margin: 5px;
+      border-radius: 4px;
+      object-fit: cover;
+      border: 1px solid #ddd;
+    }
+    /* Basic form label styling */
+    form label {
+      display: block;
+      margin-bottom: 12px;
+      font-weight: 600;
+      color: #333;
+    }
+    form label input,
+    form label select,
+    form label textarea {
+      width: 100%;
+      padding: 6px 8px;
+      margin-top: 4px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+    .btn-primary {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    .btn-primary:hover {
+      background-color: #0056b3;
+    }
+    .animated-form {
+      max-width: 600px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+    #courtList, #facilityList {
+      margin-top: 20px;
+    }
+  </style>
+ 
+
+
+
+</head>
+<body>
+
+  <div class="sidebar">
+    <div class="sidebar-top-text">
+    <h1 class="site-title">QuickCourt</h1>
+    <p class="page-subtitle">Owner Home Page</p>
+  </div>
+
+    <div class="sidebar-header">
+      <img src="https://i.pravatar.cc/100" alt="Owner Profile" class="profile-pic" />
+      <h3 class="owner-name">{{ owner_name }}</h3>
+      <p class="owner-role">Facility Owner</p>
+    </div>
+    <nav class="sidebar-nav">
+      <button class="nav-btn active" data-section="dashboard">Dashboard</button>
+      <button class="nav-btn" data-section="facility-management">Facility Management</button>
+      <button class="nav-btn" data-section="court-management">Court Management</button>
+      <button class="nav-btn" data-section="booking-overview">Booking Overview</button>
+      <button class="nav-btn" data-section="profile">Profile</button>
+    </nav>
+  </div>
+
+  <main class="main-content">
+    <!-- Dashboard -->
+    <section id="dashboard" class="section active-section">
+      <h1>Welcome back, <span class="owner-name-inline">{{ owner_name }}</span>!</h1>
+      <div class="kpis">
+        <div class="kpi-card">
+          <p>Total Bookings</p>
+          <h2 id="total-bookings">10</h2>
+        </div>
+        <div class="kpi-card">
+          <p>Active Courts</p>
+          <h2 id="active-courts">5</h2>
+        </div>
+        <div class="kpi-card">
+          <p>Earnings Simulation</p>
+          <h2 id="earnings">₹4200</h2>
+        </div>
+      </div>
+
+      <div class="charts-row">
+        <div class="chart-container">
+          <h3>Booking Trends</h3>
+          <select id="booking-trends-range">
+            <option value="daily" selected>Daily</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+          </select>
+          <canvas id="bookingTrendsChart"></canvas>
+        </div>
+
+        <div class="chart-container">
+          <h3>Peak Booking Hours</h3>
+          <canvas id="peakHoursChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- Facility Management -->
+    <section id="facility-management" class="section">
+  <h1>Facility Management</h1>
+
+  <div id="facilityView">
+    <h2>Your Facilities</h2>
+    <div id="facilityList" class="facilities-grid"></div>
+  </div>
+
+  <form id="facilityForm" style="display:none;">
+    <label>
+      Name:
+      <input type="text" id="facilityName" required>
+    </label>
+    <label>
+      Location:
+      <input type="text" id="facilityLocation" required>
+    </label>
+    <label>
+      Description:
+      <textarea id="facilityDescription"></textarea>
+    </label>
+    <label>
+      Sports Type:
+      <input type="text" id="facilitySports" required>
+    </label>
+    <label>
+      Amenities (comma separated):
+      <input type="text" id="facilityAmenities">
+    </label>
+    
+    <button type="submit" class="btn-primary">Update Facility</button>
+    <button type="button" id="cancelEditBtn" class="btn-secondary">Cancel</button>
+  </form>
+</section>
+
+    <!-- Court Management -->
+    <section id="court-management" class="section">
+      <h1>Court Management</h1>
+      <form id="courtForm" class="animated-form">
+        <label>
+          Court Name :
+          <input type="text" id="courtName" required>
+        </label>
+
+        <label>
+  Select Facilities :
+</label>
+<div class="multi-select-dropdown" id="facilityMultiSelect">
+  <div class="select-box" id="selectBox">
+    Select Facilities
+    <span class="arrow">&#9662;</span>
+  </div>
+  <div class="checkboxes" id="checkboxes" style="display:none; max-height: 200px; overflow-y:auto; border:1px solid #ccc; background:#fff; position:relative; z-index:100; width: 250px; padding: 10px; border-radius: 4px;">
+    <label><input type="checkbox" value="Parking" /> Parking</label>
+    <label><input type="checkbox" value="Restrooms" /> Restrooms</label>
+    <label><input type="checkbox" value="Food & Beverages" /> Food & Beverages</label>
+    <label><input type="checkbox" value="Locker Rooms" /> Locker Rooms</label>
+    <label><input type="checkbox" value="Showers" /> Showers</label>
+    <label><input type="checkbox" value="Seating" /> Seating / Spectator Stands</label>
+    <label><input type="checkbox" value="Lighting" /> Lighting</label>
+    <label><input type="checkbox" value="Equipment Rental" /> Equipment Rental</label>
+    <label><input type="checkbox" value="Wi-Fi" /> Wi-Fi</label>
+    <label><input type="checkbox" value="Water Fountains" /> Water Fountains</label>
+    <label><input type="checkbox" value="First Aid" /> First Aid / Medical Assistance</label>
+    <label><input type="checkbox" value="Accessibility" /> Accessibility Features</label>
+    <label><input type="checkbox" value="Security" /> Security / CCTV Surveillance</label>
+    <label><input type="checkbox" value="Ball Machines" /> Ball Machines</label>
+    <label><input type="checkbox" value="Kids Play Area" /> Kids Play Area</label>
+    <label><input type="checkbox" value="Bicycle Parking" /> Bicycle Parking</label>
+    <label>
+      <input type="checkbox" id="otherFacilityCheckbox" value="Other" /> Other
+    </label>
+    <input type="text" id="otherFacilityText" placeholder="Specify other facility" style="display:none; margin-top:5px; width: 95%;" />
+  </div>
+</div>
+<div id="selectedFacilities" style="margin-top: 10px; font-weight: 600; color: #2c3e50;"></div>
+
+        <label>
+  Location :
+  <input type="text" id="courtAddress" placeholder="Enter location manually" required />
+</label>
+
+
+
+        <label>
+          Description :
+          <textarea id="courtDescription" rows="3"></textarea>
+        </label>
+
+        <label>
+          Sport Type :
+          <select id="courtSportType" required>
+            <option value="" disabled selected>Select a sport</option>
+            <option value="Tennis">Tennis</option>
+            <option value="Basketball">Basketball</option>
+            <option value="Volleyball">Volleyball</option>
+            <option value="Badminton">Badminton</option>
+            <option value="Squash">Squash</option>
+            <option value="Table Tennis">Table Tennis</option>
+            <option value="Cricket">Cricket (Pitch)</option>
+            <option value="Football">Football (Soccer)</option>
+            <option value="Hockey">Hockey</option>
+            <option value="Baseball">Baseball</option>
+            <option value="Handball">Handball</option>
+            <option value="Racquetball">Racquetball</option>
+            <option value="Paddle Tennis">Paddle Tennis</option>
+            <option value="Pickleball">Pickleball</option>
+            <option value="Indoor Soccer">Indoor Soccer</option>
+            <option value="Beach Volleyball">Beach Volleyball</option>
+            <option value="Futsal">Futsal</option>
+          </select>
+        </label>
+
+        <label>
+          Pricing Per Hour (₹) :
+          <input type="number" id="courtPricing" min="0" required>
+        </label>
+
+        <label>
+          Open Time :
+          <input type="time" id="courtOpenTime" required>
+        </label>
+
+        <label>
+          Close Time :
+          <input type="time" id="courtCloseTime" required>
+        </label>
+
+        <label>
+          Blocked Slots :
+          <input type="text" id="courtBlockedSlots" placeholder="e.g. 10:00-11:00, 15:00-16:00">
+        </label>
+
+        <label>
+          Photos :
+          <input type="file" id="photos" multiple accept="image/*">
+        </label>
+        <div id="photo-preview"></div>
+
+        <button type="submit" class="btn-primary">Save Court</button>
+      </form>
+
+      <div id="courtList"></div>
+    </section>
+
+    <!-- Booking Overview -->
+    <section id="booking-overview" class="section">
+      <h1>Booking Overview</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Court</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="bookingTableBody"></tbody>
+      </table>
+    </section>
+
+    <!-- Profile -->
+    <section id="profile" class="section">
+      <h1>Profile</h1>
+      <form id="profileForm">
+        <label>
+          Name:
+          <input type="text" id="profileName" value="{{ owner_name }}" required />
+        </label>
+        <label>
+          Email:
+          <input type="email" id="profileEmail" value="{{ owner_email }}" required />
+        </label>
+        <label>
+          Phone:
+          <input type="tel" id="profilePhone" placeholder="Enter phone number" />
+        </label>
+        <button type="submit" class="btn-primary">Save Profile</button>
+      </form>
+      <p id="profileStatus" style="margin-top: 10px; color: green;"></p>
+    </section>
+  </main>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage.js"></script>
+  <script type="module" src="{{ url_for('static', filename='js/owner_dashboard.js') }}"></script>
+
+
+</body>
+</html>

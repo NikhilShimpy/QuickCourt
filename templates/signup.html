@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up | StreetConnect</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/signup.css') }}">
+  <script src="https://www.gstatic.com/firebasejs/9.8.4/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.8.4/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.8.4/firebase-auth-compat.js"></script>
+</head>
+<body>
+  <div class="background-animation">
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+  </div>
+
+  <div class="form-container animate_animated animate_fadeIn">
+    <div class="logo-container">
+      <i class="fas fa-store-alt"></i>
+      <h1>QuickCourt</h1>
+    </div>
+    
+    <h2>Create Your Account</h2>
+    
+    <div class="input-group animate_animated animate_fadeInUp">
+      <label>Email</label>
+      <div class="input-field">
+        <i class="fas fa-envelope"></i>
+        <input type="email" id="email" placeholder="Enter your email" required>
+      </div>
+    </div>
+    
+    <div class="input-group animate_animated animatefadeInUp animate_delay-1s">
+      <label>Password</label>
+      <div class="input-field">
+        <i class="fas fa-lock"></i>
+        <input type="password" id="password" placeholder="Create a password" required>
+        <i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility()"></i>
+      </div>
+      
+    </div>
+    
+    <div class="input-group animate_animated animatefadeInUp animate_delay-2s">
+      <label for="role">Register as:</label>
+      <div class="role-select">
+        <i class="fas fa-user-tag"></i>
+        <select id="role">
+          <option value="vendor">User</option>
+          <option value="supplier">Admin</option>
+        </select>
+      </div>
+    </div>
+    
+    <div class="terms animate_animated animatefadeInUp animate_delay-3s">
+      <input type="checkbox" id="terms" required>
+      <label for="terms">I agree to the <a href="/terms" class="link">Terms of Service</a> and <a href="/privacy" class="link">Privacy Policy</a></label>
+    </div>
+    
+    <button class="signup-btn animate_animated animatefadeInUp animate_delay-3s" onclick="signUp()">
+      <span class="btn-text">Sign Up</span>
+      <i class="fas fa-spinner fa-spin loading-icon"></i>
+    </button>
+    
+    <div class="social-signup animate_animated animatefadeInUp animate_delay-4s">
+      <p>Or sign up with</p>
+      <div class="social-icons">
+        <div class="social-icon google" onclick="signUpWithGoogle()">
+          <i class="fab fa-google"></i>
+        </div>
+        <div class="social-icon facebook" onclick="signUpWithFacebook()">
+          <i class="fab fa-facebook-f"></i>
+        </div>
+      </div>
+    </div>
+
+    <p class="redirect-text animate_animated animatefadeInUp animate_delay-4s">
+      Already have an account?  
+      <a href="/" class="link">Login here</a>
+    </p>
+  </div>
+
+  <div class="notification" id="notification"></div>
+
+  <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+</body>
+</html>

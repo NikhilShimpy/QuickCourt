@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SBR Sports - Booking Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user_booking.css') }}">
+     <script src="{{ url_for('static', filename='js/user_booking.js') }}"></script>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="logo">
+                    <h1><i class="fas fa-calendar-alt"></i> SBR Sports Bookings</h1>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-name">Your Account</div>
+                </div>
+            </div>
+            
+            <div class="tabs">
+                <div class="tab active" data-tab="upcoming">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Upcoming Bookings</span>
+                </div>
+                <div class="tab" data-tab="past">
+                    <i class="fas fa-history"></i>
+                    <span>Past Bookings</span>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="tab-content active" id="upcoming-content">
+                <div class="bookings-container">
+                    <div class="booking-card">
+                        <div class="booking-header">
+                            <div class="booking-status status-confirmed">Confirmed</div>
+                            <div class="venue-info">
+                                <div class="venue-name">Badminton Court 2</div>
+                                <div class="sport-type">Badminton</div>
+                            </div>
+                        </div>
+                        
+                        <div class="booking-details">
+                            <div class="detail">
+                                <i class="fas fa-clock"></i>
+                                <div>
+                                    <div class="detail-label">Date & Time</div>
+                                    <div class="detail-value">Today, 4:00 PM - 6:00 PM</div>
+                                </div>
+                            </div>
+                            <div class="detail">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div>
+                                    <div class="detail-label">Location</div>
+                                    <div class="detail-value">SBR Sports Complex</div>
+                                </div>
+                            </div>
+                            <div class="detail">
+                                <i class="fas fa-users"></i>
+                                <div>
+                                    <div class="detail-label">Players</div>
+                                    <div class="detail-value">4 members</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="booking-actions">
+                            <button class="btn btn-outline">
+                                <i class="fas fa-times"></i> Cancel
+                            </button>
+                            <button class="btn btn-primary">
+                                <i class="fas fa-share-alt"></i> Share
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="booking-card">
+                        <div class="booking-header">
+                            <div class="booking-status status-confirmed">Confirmed</div>
+                            <div class="venue-info">
+                                <div class="venue-name">Swimming Lane 3</div>
+                                <div class="sport-type">Swimming</div>
+                            </div>
+                        </div>
+                        
+                        <div class="booking-details">
+                            <div class="detail">
+                                <i class="fas fa-clock"></i>
+                                <div>
+                                    <div class="detail-label">Date & Time</div>
+                                    <div class="detail-value">Tomorrow, 5:00 PM - 6:00 PM</div>
+                                </div>
+                            </div>
+                            <div class="detail">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div>
+                                    <div class="detail-label">Location</div>
+                                    <div class="detail-value">SBR Aquatic Center</div>
+                                </div>
+                            </div>
+                            <div class="detail">
+                                <i class="fas fa-users"></i>
+                                <div>
+                                    <div class="detail-label">Players</div>
+                                    <div class="detail-value">2 members</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="booking-actions">
+                            <button class="btn btn-outline">
+                                <i class="fas fa-times"></i> Cancel
+                            </button>
+                            <button class="btn btn-primary">
+                                <i class="fas fa-share-alt"></i> Share
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="booking-card">
+                        <div class="booking-header">
+                            <div class="booking-status status-confirmed">Confirmed</div>
+                            <div class="venue-info">
+                                <div class="venue-name">Tennis Court 1</div>
+                                <div class="sport-type">Tennis</div>
+                            </div>
+                        </div>
+                        
+                        <div class="booking-details">
+                            <div class="detail">
+                                <i class="fas fa-clock"></i>
+                                <div>
+                                    <div class="detail-label">Date & Time</div>
+                                    <div class="detail-value">Friday, 3:00 PM - 5:00 PM</div>
+                                </div>
+                            </div>
+                            <div class="detail">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div>
+                                    <div class="detail-label">Location</div>
+                                    <div class="detail-value">SBR Tennis Club</div>
+                                </div>
+                            </div>
+                            <div class="detail">
+                                <i class="fas fa-users"></i>
+                                <div>
+                                    <div class="detail-label">Players</div>
+                                    <div class="detail-value">2 members</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="booking-actions">
+                            <button class="btn btn-outline">
+                                <i class="fas fa-times"></i> Cancel
+                            </button>
+                            <button class="btn btn-primary">
+                                <i class="fas fa-share-alt"></i> Share
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="past-content">
+                <div class="bookings-container">
+                    <div class="booking-card">
+                        <div class="booking-header">
+                            <div class="booking-status status-completed">Completed</div>
+                            <div class="venue-info">
+                                <div class="venue-name">Badminton Court 1</div>
+                                <div class="sport-type">Badminton</div>
+                            </div>
+                        </div>
+                        
+                        <div class="booking-details">
+                            <div class="detail">
+                                <i class="fas fa-clock"></i>
+                                <div>
+                                    <div class="detail-label">Date & Time</div>
+                                    <div class="detail-value">June 15, 6:00 PM - 8:00 PM</div>
+                                </div>
+                            </div>
+                            <div class="detail">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div>
+                                    <div class="detail-label">Location</div>
+                                    <div class="detail-value">SBR Sports Complex</div>
+                                </div>
+                            </div>
+                            <div class="detail">
+                                <i class="fas fa-users"></i>
+                                <div>
+                                    <div class="detail-label">Players</div>
+                                    <div class="detail-value">4 members</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="booking-actions">
+                            <button class="btn btn-outline">
+                                <i class="fas fa-redo"></i> Book Again
+                            </button>
+                            <button class="btn btn-primary">
+                                <i class="fas fa-star"></i> Rate
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="booking-card">
+                        <div class="booking-header">
+                            <div class="booking-status status-completed">Completed</div>
+                            <div class="venue-info">
+                                <div class="venue-name">Football Field 2</div>
+                                <div class="sport-type">Football</div>
+                            </div>
+                        </div>
+                        
+                        <div class="booking-details">
+                            <div class="detail">
+                                <i class="fas fa-clock"></i>
+                                <div>
+                                    <div class="detail-label">Date & Time</div>
+                                    <div class="detail-value">June 12, 10:00 AM - 12:00 PM</div>
+                                </div>
+                            </div>
+                            <div class="detail">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div>
+                                    <div class="detail-label">Location</div>
+                                    <div class="detail-value">SBR Sports Arena</div>
+                                </div>
+                            </div>
+                            <div class="detail">
+                                <i class="fas fa-users"></i>
+                                <div>
+                                    <div class="detail-label">Players</div>
+                                    <div class="detail-value">12 members</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="booking-actions">
+                            <button class="btn btn-outline">
+                                <i class="fas fa-redo"></i> Book Again
+                            </button>
+                            <button class="btn btn-primary">
+                                <i class="fas fa-star"></i> Rate
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="booking-card">
+                        <div class="booking-header">
+                            <div class="booking-status status-cancelled">Cancelled</div>
+                            <div class="venue-info">
+                                <div class="venue-name">Tennis Court 3</div>
+                                <div class="sport-type">Tennis</div>
+                            </div>
+                        </div>
+                        
+                        <div class="booking-details">
+                            <div class="detail">
+                                <i class="fas fa-clock"></i>
+                                <div>
+                                    <div class="detail-label">Date & Time</div>
+                                    <div class="detail-value">June 10, 3:00 PM - 5:00 PM</div>
+                                </div>
+                            </div>
+                            <div class="detail">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div>
+                                    <div class="detail-label">Location</div>
+                                    <div class="detail-value">SBR Tennis Club</div>
+                                </div>
+                            </div>
+                            <div class="detail">
+                                <i class="fas fa-users"></i>
+                                <div>
+                                    <div class="detail-label">Players</div>
+                                    <div class="detail-value">2 members</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="booking-actions">
+                            <button class="btn btn-outline">
+                                <i class="fas fa-redo"></i> Book Again
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    
+</body>
+</html>
