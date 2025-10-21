@@ -6,6 +6,9 @@
   <title>Login | QuickCourt</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
   <script src="https://www.gstatic.com/firebasejs/9.8.4/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.8.4/firebase-firestore-compat.js"></script>
@@ -20,28 +23,31 @@
     <div class="bubble"></div>
   </div>
 
-  <div class="form-container animate__animated animate__fadeIn">
+  <div class="form-container">
     <div class="logo-container">
-      <i class="fas fa-store-alt"></i>
+      <i class="fas fa-basketball-ball"></i>
       <h1>QuickCourt</h1>
     </div>
     
-    <h2>Welcome Back!</h2>
+    <h2>Welcome Back</h2>
+    <p class="form-subtitle">Sign in to your account to continue</p>
     
-    <div class="input-group animate__animated animate__fadeInUp">
-      <label>Email</label>
+    <div class="input-group">
+      <label for="email">Email Address</label>
       <div class="input-field">
         <i class="fas fa-envelope"></i>
         <input type="email" id="email" placeholder="Enter your email" required>
       </div>
     </div>
     
-    <div class="input-group animate__animated animate__fadeInUp animate__delay-1s">
-      <label>Password</label>
+    <div class="input-group">
+      <label for="password">Password</label>
       <div class="input-field">
         <i class="fas fa-lock"></i>
         <input type="password" id="password" placeholder="Enter your password" required>
-        <i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility()"></i>
+        <button type="button" class="toggle-password">
+          <i class="fas fa-eye"></i>
+        </button>
       </div>
     </div>
     
@@ -53,30 +59,36 @@
       <a href="/forgot-password" class="forgot-password">Forgot password?</a>
     </div>
     
-    <button class="login-btn animate__animated animate__fadeInUp animate__delay-2s" onclick="signIn()">
-      <span class="btn-text">Login</span>
+    <button class="login-btn" onclick="signIn()">
+      <span class="btn-text">Sign In</span>
       <i class="fas fa-spinner fa-spin loading-icon"></i>
     </button>
+
+    <div class="divider">Or continue with</div>
     
-    <div class="social-login animate__animated animate__fadeInUp animate__delay-3s">
-      <p>Or login with</p>
-      <div class="social-icons">
-        <div class="social-icon google" onclick="signInWithGoogle()">
+    <div class="social-login">
+      <div class="social-buttons">
+        <button class="social-btn google" onclick="signInWithGoogle()">
           <i class="fab fa-google"></i>
-        </div>
-        <div class="social-icon facebook" onclick="signInWithFacebook()">
+          <span>Continue with Google</span>
+        </button>
+        <button class="social-btn facebook" onclick="signInWithFacebook()">
           <i class="fab fa-facebook-f"></i>
-        </div>
+          <span>Continue with Facebook</span>
+        </button>
       </div>
     </div>
 
-    <p class="redirect-text animate__animated animate__fadeInUp animate__delay-3s">
+    <p class="redirect-text">
       Don't have an account?  
-      <a href="/signup" class="link">Sign Up here</a>
+      <a href="/signup" class="link">Create account</a>
     </p>
   </div>
 
-  <div class="notification" id="notification"></div>
+  <div class="notification" id="notification">
+    <i class="fas fa-info-circle"></i>
+    <span id="notification-text"></span>
+  </div>
 
   <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
 </body>
