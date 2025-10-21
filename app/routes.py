@@ -87,25 +87,6 @@ def user_cart():
     return render_template("user_cart.html")
 
 
-# @main_bp.route("/court_details")
-# def court_details():
-#     if session.get("role") != "vendor":
-#         return redirect(url_for("main.home"))
-
-#     court_id = request.args.get("court_id")
-#     if not court_id:
-#         return "Court ID missing", 400
-    
-#     court_ref = db.collection("courts").document(court_id)
-#     court_doc = court_ref.get()
-    
-#     if not court_doc.exists:
-#         return "Court not found", 404
-    
-#     court = court_doc.to_dict()
-#     court['id'] = court_doc.id  # add ID if you want to use it
-    
-#     return render_template("court_details.html", court=court)
 
 
 @main_bp.route('/court-details')
